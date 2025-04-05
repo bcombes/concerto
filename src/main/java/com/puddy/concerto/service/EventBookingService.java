@@ -67,7 +67,7 @@ public class EventBookingService {
                 if(eventNullable.isEmpty()) {
                     throw new EntityNotFoundException("Event with this id not found : " + reservation.getEventId());
                 }
-                
+
                 seatAvailability = EventSeatAvailability.builder()
                         .seat(seatNullable.get())
                         .event(eventNullable.get())
@@ -83,6 +83,9 @@ public class EventBookingService {
                         .statusCode("0")
                         .statusMessage("Seat reservation will be held for x minutes")
                         .build();
+
+            } catch(EntityNotFoundException enfe) {
+              throw enfe;
 
             } catch(PersistenceException ex) {
                 reservationResult = ReservationResult.builder()
@@ -124,7 +127,6 @@ public class EventBookingService {
             } else { //Otherwise return an error to the user...
                 bookingResult = BookingResult.builder()
                         .seatId(booking.getSeatId())
-                        .bookingId(seatAvailability.getId())
                         .statusCode("-1")
                         .statusMessage("Either there is no reservation for this seat or it is no longer available")
                         .build();

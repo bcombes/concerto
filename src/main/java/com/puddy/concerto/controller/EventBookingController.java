@@ -15,11 +15,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.propertyeditors.UUIDEditor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +49,7 @@ public class EventBookingController {
         return ResponseEntity.ok(availableSeatsResponse);
     }
 
-    @PostMapping(value = "/make_reservation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "seat/reserve", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationResult> makeReservation(@RequestBody @Valid ReservationRequestDto requestDto) {
 
         Reservation reservation = modelMapper.map(requestDto, Reservation.class);
@@ -62,7 +59,7 @@ public class EventBookingController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping(value = "/finalize_booking", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "seat/book", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookingResult> finalizeBooking(@RequestBody BookingRequestDto requestDto) {
 
         Booking booking = modelMapper.map(requestDto, Booking.class);
